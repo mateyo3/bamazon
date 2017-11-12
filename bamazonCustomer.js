@@ -72,8 +72,7 @@ function purchasePrompts() {
     .then(function(user) {
 
         //check quantity value in products table
-        var parseQuantity = parseInt(quantityCheck);
-        var quantityCheck = connection.query("SELECT stock_quantity, product_name FROM products WHERE id=" + user.quantity +";", function(err, res) {
+        var quantityCheck = connection.query("SELECT stock_quantity, product_name FROM products WHERE id=" + user.id +";", function(err, res) {
             for (var i = 0; i < res.length; i++) {
                 console.log(
                   "Product name: " + res[i].product_name + 
