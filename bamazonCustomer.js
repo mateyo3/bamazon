@@ -29,7 +29,7 @@ function listProducts () {
 	      	"||" +
 	      	"Department: " + res[i].department_name + 
 	      	"||" +
-	      	"Price: " + res[i].price + 
+	      	"Price: $" + res[i].price + ".00 " +
 	      	"||" +
 			"Stock Quantity: " + res[i].stock_quantity
 		);
@@ -95,7 +95,7 @@ function purchasePrompts() {
 
                   //calculate total cost and push into global variable
                   totalCost = user.quantity * res[i].price;
-                  console.log("Total cost: $" + totalCost);
+                  // console.log("Total cost: $" + totalCost);
                   
                   //update database with new quantity
                   var queryStock = connection.query("UPDATE products SET stock_quantity=" + updateStock + " WHERE id=" + user.id,
@@ -103,28 +103,29 @@ function purchasePrompts() {
                     }
                   );
                   //TESTING PURPOSES ONLY
-                  console.log(queryStock.sql);
+                  // console.log(queryStock.sql);
 
-                  //display product name and quantity in stock
+                  // display total cost and
+                  console.log( 
+                  "\nYou purchased: " + user.quantity + " of " + "Product Id #" + user.id + "||" + res[i].product_name + 
+                  "\nTotal cost: $" + totalCost +
+                  "\nThank you for your purchase."
+                  );//end console log
+
+                  //display inventory check
                   console.log(
-                  "\n------------------" +
+                  "\n--------INVENTORY CHECK----------" +
+                  "\nConfirm purchase: " + user.purchase +
                   "\nItem: " + res[i].product_name + 
                   "\nOriginal stock quantity: " + res[i].stock_quantity +
                   "\nRemaining stock quantity: " + updateStock
-                  );//end return
+                  );//end console log
+
+                  connection.end();
+
                 }// end else statement 
             } //end for loop
           })//end connection.query, function (err, res)
         }
-    console.log(
-    "Thank you for your purchase." + 
-    "\nYou purchased: " + user.quantity + " of " + "Product Id #" + user.id + 
-    "\nConfirm purchase: " + user.purchase
-    );//end console log
-
     })//end .then function(user)
-    // .then function(repeat){
-    //   purchasePrompts();
-    // }
- }
-//if qty less than qty in database go to inquirer prompt
+ }//end purchasePrompt function
