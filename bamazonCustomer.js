@@ -75,7 +75,10 @@ function purchasePrompts() {
 
     ])// end iquirer.prompt
     .then(function(user) {
-
+        if (user.purchase === "NO"){
+          return(purchasePrompts());
+          
+        } else {
         //check quantity value in products table
         var quantityCheck = connection.query("SELECT stock_quantity, product_name FROM products WHERE id=" + user.id +";", function(err, res) {
             for (var i = 0; i < res.length; i++) {
@@ -84,21 +87,19 @@ function purchasePrompts() {
                   purchasePrompts();
                 } else {
                   //display product name and quantity in stock
-                  return console.log(
+                  console.log(
                   "Inventory: " + res[i].product_name + " || " +
                   "Quantity in stock: " + res[i].stock_quantity
                   );//end return
                 }// end else statement 
             } //end for loop
           })//end connection.query, function (err, res)
-            // .then(function(e){
-
-            // });//end .then function(e)
-    
+        }
     console.log(
-    "You want to purchase: " + user.quantity + " of " + "Product Id #" + user.id + 
+    "You purchased: " + user.quantity + " of " + "Product Id #" + user.id + 
     "\nConfirm purchase: " + user.purchase +
-    "\nThank you for your purchase."
+    "\nThank you for your purchase." +
+    "\n------------------"
     );//end console log
 
     });//end .then function(user)
