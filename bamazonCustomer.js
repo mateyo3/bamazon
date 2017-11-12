@@ -5,10 +5,8 @@ var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
 
-  // Your username
   user: "root",
 
-  // Your password
   password: "Calamigos2015",
   database: "bamazon"
 });
@@ -35,26 +33,71 @@ function listProducts () {
 		);
     }
     purchasePrompts();
-  });//end: query function
+  	});//end: query function
 }//end: listProducts function
 
 function purchasePrompts() {
-	inquirer.prompt([
-		{
-			name: "id",
-			type: "input",
-			message: "What is the product ID that you want to purchase?"
-		},
+    inquirer.prompt([{
+            name: "id",
+            type: "input",
+            message: "What is the product ID that you want to purchase?"
+        },
 
-		{
-			name: "quantity",
-			type: "input",
-			message: "How many do you want to buy?"
-		},
+        {
+            name: "quantity",
+            type: "input",
+            message: "How many do you want to buy?"
+        },
 
-	]).then(function(user){
+        {
+            name: "purchase",
+            type: "rawlist",
+            message: "Confirm purchase?",
+            choices: ["YES", "NO"]
+        }
 
-		console.log("Product Id: " + user.id);
-		console.log("Quantity: " + user.quantity);
-	}); //end: function(user)
-} //end: purchasePrompt function
+    ])
+    .then(function(user) {
+
+  //       //check quantity value in products table
+  //       let quantityCheck = "SELECT quantity FROM products WHERE id=" + user.quantity + ";"
+  //       connection.query(quantityCheck, function(err, res) {
+  //           for (var i = 0; i < res.length; i++) {
+  //               console.log("Quantity in stock: " + res.quantity);
+  //           }
+  //       });
+    console.log("Product Id: " + user.id);
+    console.log("Quantity: " + user.quantity);
+    console.log("Purchase: " + user.purchase);
+    });
+
+ }
+//if qty less than qty in database go to inquirer prompt
+
+// else
+// 		inquirer.prompt([
+// 		{
+// 			name: "id",
+// 			type: "input",
+// 			message: "buy?"
+// 		}
+
+// 		]).then...
+
+	// }); //end: function(user)
+
+	// makePurchase();
+// } //end: purchasePrompt function
+
+// function makePurchase() {
+// 	inquirer.prompt([
+// 			{
+// 				name: "purchase",
+// 				type: "confirm",
+// 				message: "Would you like to purchase?"
+// 			},
+// 	]).then(function(purchase){
+
+// 		console.log("Product Id: " + purchase.purchase);
+// 	}); //end: function(user)
+// }
