@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
   database: "bamazon"
 });
 
-
+var totalCost = 0;
 
 connection.connect(function(err) {
   if (err) throw err;
@@ -75,21 +75,40 @@ function purchasePrompts() {
 
     ])// end iquirer.prompt
     .then(function(user) {
+        //if confirm purchase is NO, then restart PurchasePrompts
         if (user.purchase === "NO"){
           return(purchasePrompts());
           
         } else {
         //check quantity value in products table
-        var quantityCheck = connection.query("SELECT stock_quantity, product_name FROM products WHERE id=" + user.id +";", function(err, res) {
+        var quantityCheck = connection.query("SELECT stock_quantity, product_name, price FROM products WHERE id=" + user.id +";", function(err, res) {
             for (var i = 0; i < res.length; i++) {
                 if (res[i].stock_quantity < user.quantity){
                   console.log("------------------" + "\nINSUFFICIENT QUANTITY IN STOCK" + "\nPlease select another item.");
+                  
+                  //restart prompts
                   purchasePrompts();
+
                 } else {
+                  //subtract user quantity from stock quantity
+                  var updateStock = res[i].stock_quantity - user.quantity;
+
+                  //calculate total cost and push into global variable
+                  totalCost = user.quantity * res[i].price;
+
+                  //update database with new quantity
+                  var queryStock = connection.query("UPDATE products SET " + updateStock + "WHERE id=" + user.id,
+                    function(err, res) {
+                    }
+                  );
+                  //TESTING PURPOSES ONLY
+                  // console.log(queryStock.sql);
+
                   //display product name and quantity in stock
                   console.log(
-                  "Inventory: " + res[i].product_name + " || " +
-                  "Quantity in stock: " + res[i].stock_quantity
+                  "Item: " + res[i].product_name + 
+                  "\nOriginal stock quantity: " + res[i].stock_quantity +
+                  "\nRemaining stock quantity: " + updateStock
                   );//end return
                 }// end else statement 
             } //end for loop
@@ -98,6 +117,7 @@ function purchasePrompts() {
     console.log(
     "You purchased: " + user.quantity + " of " + "Product Id #" + user.id + 
     "\nConfirm purchase: " + user.purchase +
+    "\nTotal Cost: $" + totalCost +
     "\nThank you for your purchase." +
     "\n------------------"
     );//end console log
@@ -106,3 +126,8 @@ function purchasePrompts() {
 
  }
 //if qty less than qty in database go to inquirer prompt
+
+
+function stockUpdate(){
+
+}
