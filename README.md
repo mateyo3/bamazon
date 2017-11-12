@@ -14,7 +14,7 @@ If the quantity the customer wants to purcase is available for the item, then th
 The purchased item name, quantity, and total cost is displayed for the customer. Additionally, an inventory check is displayed.
 
 ## Getting Started
-Before running bamazonCustomer.js you must install the npm dependencies
+Before running `bamazonCustomer.js` you must install the npm dependencies
 `npm install`
 
 ## Built With
