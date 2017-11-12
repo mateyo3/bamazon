@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
   database: "bamazon"
 });
 
-var totalCost = 0;
+var totalCost = "";
 
 connection.connect(function(err) {
   if (err) throw err;
@@ -95,18 +95,20 @@ function purchasePrompts() {
 
                   //calculate total cost and push into global variable
                   totalCost = user.quantity * res[i].price;
-
+                  console.log("Total cost: $" + totalCost);
+                  
                   //update database with new quantity
-                  var queryStock = connection.query("UPDATE products SET " + updateStock + "WHERE id=" + user.id,
+                  var queryStock = connection.query("UPDATE products SET stock_quantity=" + updateStock + " WHERE id=" + user.id,
                     function(err, res) {
                     }
                   );
                   //TESTING PURPOSES ONLY
-                  // console.log(queryStock.sql);
+                  console.log(queryStock.sql);
 
                   //display product name and quantity in stock
                   console.log(
-                  "Item: " + res[i].product_name + 
+                  "\n------------------" +
+                  "\nItem: " + res[i].product_name + 
                   "\nOriginal stock quantity: " + res[i].stock_quantity +
                   "\nRemaining stock quantity: " + updateStock
                   );//end return
@@ -115,19 +117,14 @@ function purchasePrompts() {
           })//end connection.query, function (err, res)
         }
     console.log(
-    "You purchased: " + user.quantity + " of " + "Product Id #" + user.id + 
-    "\nConfirm purchase: " + user.purchase +
-    "\nTotal Cost: $" + totalCost +
-    "\nThank you for your purchase." +
-    "\n------------------"
+    "Thank you for your purchase." + 
+    "\nYou purchased: " + user.quantity + " of " + "Product Id #" + user.id + 
+    "\nConfirm purchase: " + user.purchase
     );//end console log
 
-    });//end .then function(user)
-
+    })//end .then function(user)
+    // .then function(repeat){
+    //   purchasePrompts();
+    // }
  }
 //if qty less than qty in database go to inquirer prompt
-
-
-function stockUpdate(){
-
-}
