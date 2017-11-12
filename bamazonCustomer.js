@@ -81,10 +81,13 @@ function purchasePrompts() {
                 );
             }
         });
-    console.log("Product Id: " + user.id);
-    console.log("Quantity: " + user.quantity);
-    console.log("Purchase: " + user.purchase);
-    });
+    console.log(
+      "You want to purchase: " + user.quantity +
+      "\nConfirm purchase: " + user.purchase + 
+      "\nProduct Id: " + user.id 
+    );
+
+    });//end .then function(user)
 
  }
 //if qty less than qty in database go to inquirer prompt
