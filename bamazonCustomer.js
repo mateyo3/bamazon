@@ -40,13 +40,25 @@ function purchasePrompts() {
     inquirer.prompt([{
             name: "id",
             type: "input",
-            message: "What is the product ID that you want to purchase?"
+            message: "What is the product ID that you want to purchase?",
+            validate: function(value) {
+              if (isNaN(value) === false) {
+                  return true;
+                }
+                return ("input must be a number.");
+              }
         },
 
         {
             name: "quantity",
             type: "input",
-            message: "How many do you want to buy?"
+            message: "How many do you want to buy?",
+            validate: function(value) {
+              if (isNaN(value) === false) {
+                  return true;
+                }
+                return ("input must be a number.");
+              }
         },
 
         {
