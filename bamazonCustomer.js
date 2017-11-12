@@ -36,16 +36,18 @@ function listProducts () {
   	});//end: query function
 }//end: listProducts function
 
+//Question prompts for user to make purchase
 function purchasePrompts() {
     inquirer.prompt([{
             name: "id",
             type: "input",
             message: "What is the product ID that you want to purchase?",
+            //validate whether user input is a number
             validate: function(value) {
               if (isNaN(value) === false) {
                   return true;
                 }
-                return ("input must be a number.");
+                return ("input must be a number. Try again.");
               }
         },
 
@@ -53,11 +55,12 @@ function purchasePrompts() {
             name: "quantity",
             type: "input",
             message: "How many do you want to buy?",
+            //validate whether user input is a number
             validate: function(value) {
               if (isNaN(value) === false) {
                   return true;
                 }
-                return ("input must be a number.");
+                return ("input must be a number. Try again.");
               }
         },
 
@@ -74,16 +77,16 @@ function purchasePrompts() {
         //check quantity value in products table
         var quantityCheck = connection.query("SELECT stock_quantity, product_name FROM products WHERE id=" + user.id +";", function(err, res) {
             for (var i = 0; i < res.length; i++) {
+                //display product name and quantity in stock
                 console.log(
-                  "Product name: " + res[i].product_name + 
-                  "\nQuantity in stock: " + res[i].stock_quantity
+                  "Inventory: " + res[i].product_name + " || " +
+                  "Quantity in stock: " + res[i].stock_quantity
                 );
             }
         });
     console.log(
-      "You want to purchase: " + user.quantity +
-      "\nConfirm purchase: " + user.purchase + 
-      "\nProduct Id: " + user.id 
+      "You want to purchase: " + user.quantity + " of " + "Product Id #" + user.id + 
+      "\nConfirm purchase: " + user.purchase 
     );
 
     });//end .then function(user)
