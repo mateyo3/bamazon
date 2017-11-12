@@ -68,16 +68,19 @@ function purchasePrompts() {
             choices: ["YES", "NO"]
         }
 
-    ])
+    ])// end iquirer.prompt
     .then(function(user) {
 
-  //       //check quantity value in products table
-  //       let quantityCheck = "SELECT quantity FROM products WHERE id=" + user.quantity + ";"
-  //       connection.query(quantityCheck, function(err, res) {
-  //           for (var i = 0; i < res.length; i++) {
-  //               console.log("Quantity in stock: " + res.quantity);
-  //           }
-  //       });
+        //check quantity value in products table
+        var parseQuantity = parseInt(quantityCheck);
+        var quantityCheck = connection.query("SELECT stock_quantity, product_name FROM products WHERE id=" + user.quantity +";", function(err, res) {
+            for (var i = 0; i < res.length; i++) {
+                console.log(
+                  "Product name: " + res[i].product_name + 
+                  "\nQuantity in stock: " + res[i].stock_quantity
+                );
+            }
+        });
     console.log("Product Id: " + user.id);
     console.log("Quantity: " + user.quantity);
     console.log("Purchase: " + user.purchase);
@@ -85,31 +88,3 @@ function purchasePrompts() {
 
  }
 //if qty less than qty in database go to inquirer prompt
-
-// else
-// 		inquirer.prompt([
-// 		{
-// 			name: "id",
-// 			type: "input",
-// 			message: "buy?"
-// 		}
-
-// 		]).then...
-
-	// }); //end: function(user)
-
-	// makePurchase();
-// } //end: purchasePrompt function
-
-// function makePurchase() {
-// 	inquirer.prompt([
-// 			{
-// 				name: "purchase",
-// 				type: "confirm",
-// 				message: "Would you like to purchase?"
-// 			},
-// 	]).then(function(purchase){
-
-// 		console.log("Product Id: " + purchase.purchase);
-// 	}); //end: function(user)
-// }
