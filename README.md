@@ -7,7 +7,7 @@ Three questions are asked:
 2. How many do you want to buy?
 3. Confirm purchase? 1)YES, 2)NO
 
-### Questions 2 and 3 validate data input and must be a number
+Questions 2 and 3 validate data input and must be a number
 
 If the quantity the customer wants to purcase is available for the item, then the database is updated.
 
